@@ -11,7 +11,7 @@ def addressTOlatlng():
     output_format=request_data['output_format']
     
     
-    API_KEY='-----------API_KEY------------'
+    API_KEY='----------API_KEY------------'
     
     params={
     'key':API_KEY,
@@ -26,22 +26,20 @@ def addressTOlatlng():
     if response['status']=='OK':
         lat=response['results'][0]['geometry']['location']['lat']
         lng=response['results'][0]['geometry']['location']['lng']
+        coordinates={
+            "lat":lat,
+            "lng":lng
+        }
         if output_format=='xml':        
             response=simplexml.dumps(
                 {"root":{
                     "address":address,
-                    "cordinates":{
-                        "lat":lat,
-                        "lng":lng
-                    }
+                    "coordinates":coordinates
                 } })
         else:
              response= jsonify(
                 Address=address,
-                coordinates={
-                    "lat":lat,
-                    "lng":lng
-                }            
+                coordinates=coordinates 
             )
     return response
         
